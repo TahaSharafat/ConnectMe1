@@ -22,9 +22,8 @@ io.sockets.on('connection', function(socket){
 
 	//disconnect
 	socket.on('disconnect', function(data){
-		//users.splice(users.indexOf(socket.username), 1);
-		updateUsernames();
 		delete users[socket.username];
+		updateUsernames();
 		connections.splice(connections.indexOf(socket), 1);
 		console.log('Users online: ' +  connections.length);
 	});
