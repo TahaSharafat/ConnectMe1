@@ -41,12 +41,13 @@ io.sockets.on('connection', function(socket){
 				var msg = msg.substr(index + 1);
 				if(name in users){
 					users[name].emit('whisper', {msg: msg, user: socket.username});
+					callback("<strong> To " + name + ": </strong>" + msg);
 					console.log("Whispering continues...");
 				}else{
-					callback("Enter a valid username! (CASE SENSITIVE)");
+					callback(" Enter a valid username! (CASE SENSITIVE)");
 				}
 			}else{
-				callback('Please enter a message for your whisper!');
+				callback(' Please enter a message for your whisper!');
 			}
 
 		}else{

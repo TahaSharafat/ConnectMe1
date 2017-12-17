@@ -54,7 +54,7 @@
 				<div class="col-md-12">
 					<div class="alert alert-danger alert-dismissable" id="userError">
 						<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-						Try a different username!
+						Try a different username...(No spaces!)
   					</div>
 					<h2> Welcome to</h2>
 					<img src="/images/connectMelogo.png"/>
@@ -66,12 +66,9 @@
 							<br/>
 							<label> <h5> Enter Username:  </h5></label>
 							<input id ="username" class = "form-control"></input>
-							  <input type="submit" class="btn btn-primary" value = "Enter" />
-						      <div class="checkbox"> 
-						      	<label>
-						      		<input type="checkbox" name="remember"> Remember me
-						      	</label>
-						      </div>
+						    <label><h5>Password: </h5></label>
+							<input id ="password" class = "form-control" type="password"></input>
+							<input type="submit" class="btn btn-primary" value = "Enter" />
 						</div>
 					</form>
 				</div>
@@ -114,13 +111,14 @@
 				var $userForm = $('#userForm');
 				var $users = $('#users');
 				var $username = $('#username');
+				var $password = $('#password');
 				var $userError = $('#userError');
 
 				$messageForm.submit(function(e){
 					e.preventDefault(); 
 					socket.emit('send message', $message.val(), function(data){
 						var date = formatAMPM(new Date());
-						$chat.append('<div class="alert alert-danger">'+"[" + date + "] " + data + '</div>');
+						$chat.append('<div class="alert alert-success"><strong>'+"[" + date + "]</strong>" + data + '</div>');
 						chatBody.scrollTop = chatBody.scrollHeight - chatBody.clientHeight;	
 					});
 					$message.val('');
@@ -134,7 +132,7 @@
 
 				socket.on('whisper', function(data){
 					var date = formatAMPM(new Date());
-					$chat.append('<div class="alert alert-success"><strong><i>'+"[" + date + "] " +data.user+'</strong>: '+data.msg+'</i></div>');	
+					$chat.append('<div class="alert alert-success"><strong>'+"[" + date + "] From " +data.user+'</strong>: '+data.msg+'</div>');	
 					chatBody.scrollTop = chatBody.scrollHeight - chatBody.clientHeight;				
 				});
 
