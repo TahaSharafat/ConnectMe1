@@ -8,8 +8,11 @@
   },
   "author": "Kevin Cheung, Ittihad Chowdhury, Taha Sharafat",
   "license": "ISC",
-  "dependencies":{
-  	"socket.io":"*",
-  	"express":"*"
+  "dependencies": {
+    "socket.io": "*",
+    "express": "*"
+  },
+  "devDependencies": {
+    "nodemon": "^1.13.3"
   }
 }
