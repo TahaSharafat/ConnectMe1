@@ -1,0 +1,187 @@
+<html>
+	<head>
+		<title>connectMe!</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+		<script src = "/socket.io/socket.io.js"></script>
+		<style>
+			body{
+				margin-top: 30px;
+
+			}
+
+			#messageArea{
+				display:none;
+			}
+			#chatbox{
+			  background-color: #F0FFFF;
+				float:right;
+			}
+			#onlinebox{
+				float:left;
+			}
+			#welcomegif{
+
+  				width: 580px;
+  				height: auto;
+  				padding: 20px;
+			}
+			#checkbox{
+				padding:30px;
+			}
+			#userError{
+				display:none;
+			}
+			#chat{
+				height: 400px;
+				width: auto;
+			  	overflow: scroll;
+			  	word-wrap: break-word;
+			}
+			#insideLogo{
+				width: 400px;
+				height: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+
+			<div id="userFormArea" class="row">
+
+				<div class="col-md-12">
+					<div class="alert alert-danger alert-dismissable" id="userError">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+						Try a different username!
+  					</div>
+					<h2> Welcome to</h2>
+					<img src="/images/connectMelogo.png"/>
+					<p class="lead">Kevin Cheung, Ittihad Chowdhury, and Taha Sharafat</p>
+					<img id="welcomegif" src="https://media.giphy.com/media/CFaOGCZrcyPDO/giphy.gif" size="5" title="Welcome!" />
+					<br/>
+					<form id = "userForm" class = "form-inline">
+						<div class = "form-group">
+							<br/>
+							<label> <h5> Enter Username:  </h5></label>
+							<input id ="username" class = "form-control"></input>
+							  <input type="submit" class="btn btn-primary" value = "Enter" />
+						      <div class="checkbox"> 
+						      	<label>
+						      		<input type="checkbox" name="remember"> Remember me
+						      	</label>
+						      </div>
+						</div>
+					</form>
+				</div>
+
+
+			</div>
+			<div class="row" id="messageArea">
+				<div class = "col-md-4" id="onlinebox">
+					<div class="alert alert-info">
+						<h4>Users Online:</h4>
+						<ul class = "list-group" id ="users"></ul>
+					</div>
+				</div>
+				<img id = "insideLogo" src="/images/connectMelogo.png"/>
+				<div class = "col-md-8" id="chatbox">
+					<div class = "chat" id="chat"> </div>
+
+
+					<form id = "messageForm">
+						<div class = "form-group">
+							<label><strong>Enter Message:</strong></label>
+							<textarea class = "form-control" id ="message"></textarea>
+							<br />
+							<input type="submit" id ="submit" class="btn btn-primary" value = "Send" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			var chatBody = document.querySelector('#chat');
+			$(function(){
+				var socket = io.connect();
+				var $messageForm = $('#messageForm');
+				var $message = $('#message');
+				var $chat = $('#chat');
+				var $messageArea = $('#messageArea');
+				var $userFormArea = $('#userFormArea');
+				var $userForm = $('#userForm');
+				var $users = $('#users');
+				var $username = $('#username');
+				var $userError = $('#userError');
+
+				$messageForm.submit(function(e){
+					e.preventDefault(); 
+					socket.emit('send message', $message.val(), function(data){
+						var date = formatAMPM(new Date());
+						$chat.append('<div class="alert alert-danger">'+"[" + date + "] " + data + '</div>');
+						chatBody.scrollTop = chatBody.scrollHeight - chatBody.clientHeight;	
+					});
+					$message.val('');
+				});
+
+				socket.on('new message', function(data){
+					var date = formatAMPM(new Date());
+					$chat.append('<div class="alert alert-info"><strong>'+"[" + date + "] " +data.user+'</strong>: '+data.msg+'</div>');
+					chatBody.scrollTop = chatBody.scrollHeight - chatBody.clientHeight;
+				});
+
+				socket.on('whisper', function(data){
+					var date = formatAMPM(new Date());
+					$chat.append('<div class="alert alert-success"><strong><i>'+"[" + date + "] " +data.user+'</strong>: '+data.msg+'</i></div>');	
+					chatBody.scrollTop = chatBody.scrollHeight - chatBody.clientHeight;				
+				});
+
+				$userForm.submit(function(e){
+					e.preventDefault(); 
+					socket.emit('new user', $username.val(), function(data){
+						var date = formatAMPM(new Date());
+						if(data){
+							$userFormArea.hide();
+							$messageArea.show();
+						}
+						else{
+							$userError.show();
+						}
+					});
+					$username.val('');
+				});
+
+				socket.on('get users', function(data){
+					var html = '';
+					for(i = 0; i < data.length; i++){
+						html += '<li class="list-group-item">' + data[i] + '</li>';
+					}
+					$users.html(html);
+				});
+
+				$('#message').keypress(function (e) {
+  					if (e.which == 13) {
+    					$('#submit').submit();
+    					return false;    //<---- Add this line
+  					}
+				});
+			});
+
+			function formatAMPM(date) {
+	    		var hours = date.getHours();
+			    var minutes = date.getMinutes();
+			    var ampm = hours >= 12 ? 'PM' : 'AM';
+			    hours = hours % 12;
+			    hours = hours ? hours : 12; // the hour '0' should be '12'
+			    minutes = minutes < 10 ? '0'+minutes : minutes;
+			    var strTime = hours + ':' + minutes + ' ' + ampm;
+			    return strTime;
+			} 
+		</script>
+	</body>
+			<!-- <footer>
+ 			<small><center>&copy; Copyright 2017, connectMe Inc Corp.</center></small>
+		</footer> -->
+</html>
