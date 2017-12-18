@@ -159,22 +159,40 @@
 					$users.html(html);
 				});
 
+				socket.on('load messages', function(data){
+					for(i=0; i < data.length; i++){
+						chatBody.scrollTop = chatBody.scrollHeight - chatBody.clientHeight;	
+						$chat.append('<div class="alert alert-danger"><strong>'+"[" + data[i].date + "] " + data[i].from + "</strong>: " + data[i].message + ' </div>');	
+					}
+						console.log("Finished loading old messages.");
+				});
+
 				$('#message').keypress(function (e) {
   					if (e.which == 13) {
     					$('#submit').submit();
     					return false;    //<---- Add this line
   					}
 				});
+
 			});
 
+
+			// socket.on('display message', function(data){
+			// 	displayMessages(data);
+			// });
+
+
 			function formatAMPM(date) {
+				var month = date.getUTCMonth() +1;
+				var day = date.getUTCDate();
+				var year = date.getUTCFullYear();
 	    		var hours = date.getHours();
 			    var minutes = date.getMinutes();
 			    var ampm = hours >= 12 ? 'PM' : 'AM';
 			    hours = hours % 12;
 			    hours = hours ? hours : 12; // the hour '0' should be '12'
 			    minutes = minutes < 10 ? '0'+minutes : minutes;
-			    var strTime = hours + ':' + minutes + ' ' + ampm;
+			    var strTime = month+"/"+day + "/" + year + ' ' + hours + ':' + minutes + ' ' + ampm;
 			    return strTime;
 			} 
 		</script>

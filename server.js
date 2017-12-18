@@ -4,22 +4,9 @@ var server = require('http').createServer(app); //creates server
 var io = require('socket.io').listen(server);
 const mysql = require('mysql');
 
-const db = mysql.createConnection({
-		host     : 'us-cdbr-iron-east-05.cleardb.net',
-		user     : 'b2688ca46574e6',
-		password : '5ac14581',
-		database : 'heroku_48febb90a6d362c'
-});
-
-db.connect((err) => {
-	if(err){
-		throw err;
-	}
-	console.log('mysql connected...');
-});
-
 users = {};
 connections = [];
+var ret = [];
 app.use(express.static('public'));
 
 server.listen(process.env.PORT || 5000, '0.0.0.0', function(){
@@ -30,9 +17,40 @@ console.log('Server is running...');
 
 app.get('/',function(req,res){
 	res.sendFile(__dirname + '/index.html');
+	// let sql = 'SELECT * FROM messages';
+	// let query = db.query(sql, (err, results) => {
+	// 	if(err) throw err;
+	// 	console.log(results);
+	// 	res.send('Posts fetched...');
+	// });
+
+});
+
+const db = mysql.createConnection({
+		host     : 'localhost',
+		user     : 'root',
+		password : 'localhost2341',
+		database : 'connectme'
+});
+
+db.connect((err) => {
+	if (err) throw err;
+	console.log("SQL server connected...");
 });
 
 io.sockets.on('connection', function(socket){
+	var sql = 'SELECT * FROM connectme.messages LIMIT 10;'
+	db.query(sql, function(err, rows, fields) {
+		if (err) throw err;
+		else {
+			// for (var i in rows) {
+   //  			ret.push(rows[i]);;
+			// }
+			socket.emit('load messages', rows);
+    		console.log('Old messages saved.');
+		}
+	});
+
 	connections.push(socket);
 	console.log('Users online: '+ connections.length);
 
@@ -66,6 +84,13 @@ io.sockets.on('connection', function(socket){
 			}
 
 		}else{
+			var date = formatAMPM(new Date());
+			let post = {message:msg, from:socket.username, date:date};
+			var sql = 'INSERT INTO messages SET ?';
+			db.query(sql, post, function (err, result){
+			if(err) throw err;
+				console.log("1 record inserted!");
+			});
 			io.sockets.emit('new message', {msg: msg, user: socket.username});
 		}
 	});
@@ -83,12 +108,26 @@ io.sockets.on('connection', function(socket){
 		}
 	});
 
+
 	//Update Usernames
 	function updateUsernames(){
 		io.sockets.emit('get users', Object.keys(users));
 	}
 });
-
+//FIND OUT HOW TO STORE USERNAME, MSG, AND DATE IN LIST ARRAY AND PRINT ON LOAD PAGE
+	function formatAMPM(date) {
+		var month = date.getUTCMonth() +1;
+		var day = date.getUTCDate();
+		var year = date.getUTCFullYear();
+		var hours = date.getHours();
+	    var minutes = date.getMinutes();
+	    var ampm = hours >= 12 ? 'PM' : 'AM';
+	    hours = hours % 12;
+	    hours = hours ? hours : 12; // the hour '0' should be '12'
+	    minutes = minutes < 10 ? '0'+minutes : minutes;
+	    var strTime = month+"/"+day + "/" + year + ' ' + hours + ':' + minutes + ' ' + ampm;
+	    return strTime;
+	} 
 
 // 404 handler
 app.use(function(req,res) {
