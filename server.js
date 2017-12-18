@@ -6,19 +6,11 @@ const mysql = require('mysql');
 
 const db = mysql.createConnection({
 		host     : 'us-cdbr-iron-east-05.cleardb.net',
-		port     : '3306',
+		port     : 	3306,
 		user     : 'b2688ca46574e6',
 		password : '5ac14581',
 		database : 'heroku_48febb90a6d362c'
 });
-
-app.get('/sql', function (req, res) {
-	const q = 'SELECT * FROM students'
-	db.query(q, function (err, results, fields) {
-		if (err) { throw err; } // crash server with message
-	res.json(results); // results is an array
-	});
-	});
 
 db.connect((err) => {
 	if(err){
