@@ -27,10 +27,10 @@ app.get('/',function(req,res){
 });
 
 const db = mysql.createConnection({
-		host     : 'localhost',
-		user     : 'root',
-		password : 'localhost2341',
-		database : 'connectme'
+		host     : 'us-cdbr-iron-east-05.cleardb.net',
+		user     : 'b2688ca46574e6',
+		password : '5ac14581',
+		database : 'heroku_48febb90a6d362c'
 });
 
 db.connect((err) => {
@@ -39,7 +39,7 @@ db.connect((err) => {
 });
 
 io.sockets.on('connection', function(socket){
-	var sql = 'SELECT * FROM connectme.messages LIMIT 10;'
+	var sql = 'SELECT * FROM heroku_48febb90a6d362c.messages LIMIT 10;'
 	db.query(sql, function(err, rows, fields) {
 		if (err) throw err;
 		else {
