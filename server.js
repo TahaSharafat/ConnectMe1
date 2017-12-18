@@ -2,6 +2,22 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app); //creates server
 var io = require('socket.io').listen(server);
+const mysql = require('mysql');
+
+const db = mysql.createConnection({
+		host     : 'us-cdbr-iron-east-05.cleardb.net',
+		user     : 'b2688ca46574e6',
+		password : '5ac14581'
+		//database : 'movies'
+});
+
+db.connect((err) => {
+	if(err){
+		throw err;
+	}
+	console.log('mysql connected...');
+});
+
 users = {};
 connections = [];
 app.use(express.static('public'));
