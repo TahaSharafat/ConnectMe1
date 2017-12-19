@@ -9,7 +9,7 @@ connections = [];
 var ret = [];
 app.use(express.static('public'));
 
-app.set('port', (process.env.PORT || 5000));
+var port = process.env.PORT || 5000
 
 server.listen(port, function() {
     console.log("App is running on port " + port);
