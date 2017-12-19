@@ -10,9 +10,8 @@ connections = [];
 var ret = [];
 app.use(express.static('public'));
 
-var port = process.env.PORT || 5000;
-server.listen(port, function() {
-    console.log("Listening on " + port);
+server.listen(process.env.PORT || 5000, '0.0.0.0', function(){
+	console.log('Listening to port: ' + 5000)
 });
 
 console.log('Server is running...');
