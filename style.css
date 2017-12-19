@@ -1,14 +1,14 @@
 
 body{
 	margin-top: 30px;
-
+	
 }
 
 #messageArea{
 	display:none;
 }
 #chatbox{
-  	background-color: powderblue;
+  background-color: #F0FFFF;
 	float:right;
 }
 #onlinebox{
