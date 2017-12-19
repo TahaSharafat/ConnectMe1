@@ -4,15 +4,14 @@ var server = require('http').createServer(app); //creates server
 var io = require('socket.io').listen(server);
 const mysql = require('mysql');
 
+
 users = {};
 connections = [];
 var ret = [];
 app.use(express.static('public'));
 
-var port = process.env.PORT || 5000
-
-server.listen(port, function() {
-    console.log("App is running on port " + port);
+server.listen(process.env.PORT || 5000, '0.0.0.0', function(){
+	console.log('Listening to port: ' + 5000)
 });
 
 console.log('Server is running...');
@@ -29,10 +28,10 @@ app.get('/',function(req,res){
 });
 
 const db = mysql.createConnection({
-    host	: process.env.DB_HOST,
-    user	: process.env.DB_USER,  
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME
+		host     : 'localhost',
+		user     : 'root',
+		password : 'localhost2341',
+		database : 'connectme'
 });
 
 db.connect((err) => {
@@ -41,7 +40,7 @@ db.connect((err) => {
 });
 
 io.sockets.on('connection', function(socket){
-	var sql = 'SELECT * FROM heroku_48febb90a6d362c.messages LIMIT 10;'
+	var sql = '(SELECT * FROM connectme.messages ORDER BY idmessages DESC LIMIT 6) ORDER BY idmessages ASC;'
 	db.query(sql, function(err, rows, fields) {
 		if (err) throw err;
 		else {
@@ -116,7 +115,8 @@ io.sockets.on('connection', function(socket){
 		io.sockets.emit('get users', Object.keys(users));
 	}
 });
-//FIND OUT HOW TO STORE USERNAME, MSG, AND DATE IN LIST ARRAY AND PRINT ON LOAD PAGE
+
+
 	function formatAMPM(date) {
 		var month = date.getUTCMonth() +1;
 		var day = date.getUTCDate();
