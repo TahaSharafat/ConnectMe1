@@ -1,6 +1,11 @@
 
 body{
 	margin-top: 30px;
+	background-image:url("/images/jungle1.jpg");
+	
+	background-repeat:no-repeat;
+	
+	background-size:cover;
 	
 }
 
