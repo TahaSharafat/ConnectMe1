@@ -12,7 +12,7 @@ body{
 	float:right;
 }
 #onlinebox{
-	float:left;
+	float: right;
 }
 #welcomegif{
 	width: 580px;
@@ -32,6 +32,7 @@ body{
   	word-wrap: break-word;
 }
 #insideLogo{
-	width: 400px;
+	width: 300px;
 	height: auto;
 }
+

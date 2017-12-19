@@ -8,11 +8,25 @@ body{
 	display:none;
 }
 #chatbox{
-  background-color: #F0FFFF;
-	float:right;
+	background-color: #F0FFFF;
+    width: 800px;
+    position: fixed;
+    height: 80%;
+    left: 420px;
+    top: 120px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 #onlinebox{
-	float:left;
+    width: 230px;
+    position: fixed;
+    height: 100%;
+    left: 200px;
+    top: 110px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}	
+
 }
 #welcomegif{
 	width: 580px;
@@ -32,6 +46,6 @@ body{
   	word-wrap: break-word;
 }
 #insideLogo{
-	width: 400px;
+	width: 350px;
 	height: auto;
 }
