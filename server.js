@@ -42,7 +42,7 @@ db.connect((err) => {
 });
 
 io.sockets.on('connection', function(socket){
-	var sql = 'SELECT * FROM heroku_48febb90a6d362c.messages LIMIT 10;'
+	var sql = 'SELECT * DB_NAME.messages LIMIT 10;'
 	db.query(sql, function(err, rows, fields) {
 		if (err) throw err;
 		else {
