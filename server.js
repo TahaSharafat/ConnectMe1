@@ -29,10 +29,11 @@ app.get('/',function(req,res){
 });
 
 const db = mysql.createConnection({
-		host     : 'us-cdbr-iron-east-05.cleardb.net',
-		user     : 'b2688ca46574e6',
-		password : '5ac14581',
-		database : 'heroku_48febb90a6d362c'
+    host	: process.env.DB_HOST,
+    port	: 3306,
+    user	: process.env.DB_USER,  
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME
 });
 
 db.connect((err) => {
