@@ -2,26 +2,41 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app); //creates server
 var io = require('socket.io').listen(server);
+const mysql = require('mysql');
+
+
 users = {};
 connections = [];
+var ret = [];
 app.use(express.static('public'));
 
-var connection = mysql.createConnection({
-  host     : 'us-cdbr-iron-east-05.cleardb.net',
-  user     : 'b6d6c6e874',
-  password : '5ac14581',
-  database : 'heroku_48febb90a6d362c'
+server.listen(process.env.PORT || 5000, '0.0.0.0', function(){
+	console.log('Listening to port: ' + 5000)
 });
 
-connection.connect();
+console.log('Server is running...');
 
 app.get('/',function(req,res){
 	res.sendFile(__dirname + '/index.html');
+	// let sql = 'SELECT * FROM messages';
+	// let query = db.query(sql, (err, results) => {
+	// 	if(err) throw err;
+	// 	console.log(results);
+	// 	res.send('Posts fetched...');
+	// });
+
 });
 
-var port = process.env.PORT || 5000;
-app.listen(port, function() {
-  console.log("Listening on " + port);
+const db = mysql.createConnection({
+    host: 'us-cdbr-iron-east-05.cleardb.net',
+    user: 'b2688ca46574e6',
+    password: '5ac14581',
+    database: 'heroku_48febb90a6d362c'
+});
+
+db.connect((err) => {
+	if (err) throw err;
+	console.log("SQL server connected...");
 });
 
 io.sockets.on('connection', function(socket){
@@ -42,9 +57,8 @@ io.sockets.on('connection', function(socket){
 
 	//disconnect
 	socket.on('disconnect', function(data){
-		//users.splice(users.indexOf(socket.username), 1);
-		updateUsernames();
 		delete users[socket.username];
+		updateUsernames();
 		connections.splice(connections.indexOf(socket), 1);
 		console.log('Users online: ' +  connections.length);
 	});
@@ -61,15 +75,23 @@ io.sockets.on('connection', function(socket){
 				var msg = msg.substr(index + 1);
 				if(name in users){
 					users[name].emit('whisper', {msg: msg, user: socket.username});
+					callback("<strong> To " + name + ": </strong>" + msg);
 					console.log("Whispering continues...");
 				}else{
-					callback("Enter a valid username! (CASE SENSITIVE)");
+					callback(" Enter a valid username! (CASE SENSITIVE)");
 				}
 			}else{
-				callback('Please enter a message for your whisper!');
+				callback(' Please enter a message for your whisper!');
 			}
 
 		}else{
+			var date = formatAMPM(new Date());
+			let post = {message:msg, from:socket.username, date:date};
+			var sql = 'INSERT INTO messages SET ?';
+			db.query(sql, post, function (err, result){
+			if(err) throw err;
+				console.log("1 record inserted!");
+			});
 			io.sockets.emit('new message', {msg: msg, user: socket.username});
 		}
 	});
@@ -87,12 +109,27 @@ io.sockets.on('connection', function(socket){
 		}
 	});
 
+
 	//Update Usernames
 	function updateUsernames(){
 		io.sockets.emit('get users', Object.keys(users));
 	}
 });
 
+
+	function formatAMPM(date) {
+		var month = date.getUTCMonth() +1;
+		var day = date.getUTCDate();
+		var year = date.getUTCFullYear();
+		var hours = date.getHours();
+	    var minutes = date.getMinutes();
+	    var ampm = hours >= 12 ? 'PM' : 'AM';
+	    hours = hours % 12;
+	    hours = hours ? hours : 12; // the hour '0' should be '12'
+	    minutes = minutes < 10 ? '0'+minutes : minutes;
+	    var strTime = month+"/"+day + "/" + year + ' ' + hours + ':' + minutes + ' ' + ampm;
+	    return strTime;
+	} 
 
 // 404 handler
 app.use(function(req,res) {
