@@ -16,6 +16,7 @@ body{
     top: 120px;
     padding-top: 10px;
     padding-bottom: 10px;
+    border: 2px solid rgba(29, 49, 91, .3);
 }
 #onlinebox{
     width: 230px;
