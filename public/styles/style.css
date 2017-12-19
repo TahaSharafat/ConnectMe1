@@ -1,0 +1,37 @@
+
+body{
+	margin-top: 30px;
+
+}
+
+#messageArea{
+	display:none;
+}
+#chatbox{
+  background-color: #F0FFFF;
+	float:right;
+}
+#onlinebox{
+	float:left;
+}
+#welcomegif{
+	width: 580px;
+	height: auto;
+	padding: 20px;
+}
+#checkbox{
+	padding:30px;
+}
+#userError{
+	display:none;
+}
+#chat{
+	height: 400px;
+	width: auto;
+  	overflow: scroll;
+  	word-wrap: break-word;
+}
+#insideLogo{
+	width: 400px;
+	height: auto;
+}
