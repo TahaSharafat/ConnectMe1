@@ -13,26 +13,23 @@
 
 			<div id="userFormArea" class="row">
 
-				<div class="col-md-12">
+				<div class="col-md-12" id="frontpage">
 					<div class="alert alert-danger alert-dismissable" id="userError">
 						<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
 						Try a different username...(No spaces!)
   					</div>
-					<h2> Welcome to</h2>
+					<center>
 					<img src="/images/connectMelogo.png"/>
-					<p class="lead">Kevin Cheung, Ittihad Chowdhury, and Taha Sharafat</p>
 					<img id="welcomegif" src="https://media.giphy.com/media/CFaOGCZrcyPDO/giphy.gif" size="5" title="Welcome!" />
 					<br/>
-					<form id = "userForm" class = "form-inline">
+					<form id = "userForm" class = "form-inline justify-content-center">
 						<div class = "form-group">
-							<br/>
-							<label> <h5> Enter Username:  </h5></label>
+							<label> <h5> Nickname: </h5></label>
 							<input id ="username" class = "form-control"></input>
-						    <label><h5>Password: </h5></label>
-							<input id ="password" class = "form-control" type="password"></input>
 							<input type="submit" class="btn btn-primary" value = "Enter" />
 						</div>
 					</form>
+					</center>
 				</div>
 
 
@@ -40,7 +37,7 @@
 			<div class="row" id="messageArea">
 				<div class = "col-md-4" id="onlinebox">
 					<div class="alert alert-info">
-						<h4>Users Online:</h4>
+						<h4><center>Active Users</center></h4>
 						<ul class = "list-group" id ="users"></ul>
 					</div>
 				</div>
@@ -59,10 +56,11 @@
 					</form>
 				</div>
 			</div>
+
 		</div>
 		<script src="/js/script.js"></script>
 	</body>
-			<!-- <footer>
- 			<small><center>&copy; Copyright 2017, connectMe Inc Corp.</center></small>
-		</footer> -->
+			<footer>
+ 			<small><center>&copy; Copyright 2017, connectMe Inc Corp.<br/>Kevin Cheung, Ittihad Chowdhury, and Taha Sharafat</center></small>
+			</footer>
 </html>
