@@ -10,7 +10,8 @@ var ret = [];
 app.use(express.static('public'));
 
 var port = process.env.PORT || 5000;
-app.listen(port, function() {
+
+server.listen(port, function() {
     console.log("App is running on port " + port);
 });
 
