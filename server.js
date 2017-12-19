@@ -9,10 +9,8 @@ connections = [];
 var ret = [];
 app.use(express.static('public'));
 
-var port = process.env.PORT || 5000;
-
-server.listen(port, function() {
-    console.log("App is running on port " + port);
+const listener = app.listen(5000, function () {
+    console.log(`App is running on the port... ${listener.address().port}`);
 });
 
 console.log('Server is running...');
