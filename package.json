@@ -8,6 +8,11 @@
   },
   "author": "Kevin Cheung, Ittihad Chowdhury, Taha Sharafat",
   "license": "ISC",
+
+  "engines": {
+    "node": "*"
+  },
+
   "dependencies": {
     "express": "*",
     "mysql": "^2.15.0",
