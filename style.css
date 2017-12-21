@@ -36,9 +36,4 @@ body{
 	height: auto;
 }
 
-@viewport {
-    width: extend-to-zoom 980px;
-    min-zoom: 0.25;
-    max-zoom: 5;
-}
 
