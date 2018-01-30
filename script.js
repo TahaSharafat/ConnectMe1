@@ -12,7 +12,11 @@ $(function(){
 	var $password = $('#password');
 	var $userError = $('#userError');
 
+<<<<<<< HEAD
 $messageForm.submit(function(e){
+=======
+	$messageForm.submit(function(e){
+>>>>>>> d26ec13d63745ed5fe0f86c75e36e8a5f4b109f8
 		e.preventDefault(); 
 		socket.emit('send message', $message.val(), function(data){
 			var date = formatAMPM(new Date());

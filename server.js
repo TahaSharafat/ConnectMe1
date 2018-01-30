@@ -10,13 +10,24 @@ connections = [];
 var ret = [];
 app.use(express.static('public'));
 
+<<<<<<< HEAD
 var port = process.env.PORT || 5000
 
 server.listen(port, function() {
     console.log("App is running on port " + port);
+=======
+const db = mysql.createConnection({
+    host: 'us-cdbr-iron-east-05.cleardb.net',
+    user: 'b2688ca46574e6',
+    password: '5ac14581',
+    database: 'heroku_48febb90a6d362c'
+>>>>>>> d26ec13d63745ed5fe0f86c75e36e8a5f4b109f8
 });
 
-console.log('Server is running...');
+db.connect((err) => {
+	if (err) throw err;
+	console.log("SQL server connected...");
+});
 
 app.get('/',function(req,res){
 	res.sendFile(__dirname + '/index.html');
@@ -29,19 +40,22 @@ app.get('/',function(req,res){
 
 });
 
+<<<<<<< HEAD
 const db = mysql.createConnection({
     host	: process.env.DB_HOST,
     user	: process.env.DB_USER,  
     password: process.env.DB_PASS,
     database: process.env.DB_NAME
+=======
+server.listen(process.env.PORT || 5000, '0.0.0.0', function(){
+	console.log('Listening to port: ' + 5000)
+>>>>>>> d26ec13d63745ed5fe0f86c75e36e8a5f4b109f8
 });
 
-db.connect((err) => {
-	if (err) throw err;
-	console.log("SQL server connected...");
-});
+console.log('Server is running...');
 
 io.sockets.on('connection', function(socket){
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 	var sql = '(SELECT * FROM connectme.messages ORDER BY idmessages DESC LIMIT 6) ORDER BY idmessages ASC;'
@@ -51,6 +65,9 @@ io.sockets.on('connection', function(socket){
 =======
 	var sql = 'SELECT * FROM heroku_48febb90a6d362c.messages LIMIT 10;'
 >>>>>>> f0f7fd4b44ad92b340d43dd5577a24e71a10dcbe
+=======
+	var sql = '(SELECT * FROM heroku_48febb90a6d362c.messages ORDER BY idmessages DESC LIMIT 6) ORDER BY idmessages ASC;'
+>>>>>>> d26ec13d63745ed5fe0f86c75e36e8a5f4b109f8
 	db.query(sql, function(err, rows, fields) {
 		if (err) throw err;
 		else {

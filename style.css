@@ -1,7 +1,11 @@
 
 body{
 	margin-top: 30px;
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> d26ec13d63745ed5fe0f86c75e36e8a5f4b109f8
 }
 
 #messageArea{
@@ -12,7 +16,11 @@ body{
 	float:right;
 }
 #onlinebox{
+<<<<<<< HEAD
 	float:left;
+=======
+	float: right;
+>>>>>>> d26ec13d63745ed5fe0f86c75e36e8a5f4b109f8
 }
 #welcomegif{
 	width: 580px;
@@ -32,6 +40,14 @@ body{
   	word-wrap: break-word;
 }
 #insideLogo{
+<<<<<<< HEAD
 	width: 400px;
 	height: auto;
 }
+=======
+	width: 300px;
+	height: auto;
+}
+
+
+>>>>>>> d26ec13d63745ed5fe0f86c75e36e8a5f4b109f8

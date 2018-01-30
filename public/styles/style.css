@@ -8,11 +8,34 @@ body{
 	display:none;
 }
 #chatbox{
+<<<<<<< HEAD
   background-color: #F0FFFF;
 	float:right;
 }
 #onlinebox{
 	float:left;
+=======
+	background-color: #F0FFFF;
+    width: 800px;
+    position: fixed;
+    height: 80%;
+    left: 420px;
+    top: 120px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 2px solid rgba(29, 49, 91, .3);
+}
+#onlinebox{
+    width: 230px;
+    position: fixed;
+    height: 100%;
+    left: 200px;
+    top: 110px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}	
+
+>>>>>>> d26ec13d63745ed5fe0f86c75e36e8a5f4b109f8
 }
 #welcomegif{
 	width: 580px;
@@ -32,6 +55,10 @@ body{
   	word-wrap: break-word;
 }
 #insideLogo{
+<<<<<<< HEAD
 	width: 400px;
+=======
+	width: 350px;
+>>>>>>> d26ec13d63745ed5fe0f86c75e36e8a5f4b109f8
 	height: auto;
 }
